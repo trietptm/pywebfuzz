@@ -1,0 +1,74 @@
+#summary Usage examples for pywebfuzz.
+
+= Introduction =
+
+The following are a couple of examples of using pywebfuzz.
+
+= Using fuzzdb =
+The following section describes how to use the items outlined in the fuzzdb portion of pywebfuzz.
+
+== Simple Importing ==
+
+As with many modules in Python you have options with regard to how you would like to set up your namespaces. Efforts are made to match these names up with fuzzdb. The exception is that when a hyphen (-) is encountered they are replaced with an underscore (_). 
+
+If you would just like to import the entire namespace of the fuzzdb project you could do the following:
+
+{{{
+from pywebfuzz import fuzzdb
+}}}
+
+If you were only interested in importing only the attack payloads you could do the following:
+
+{{{
+from pywebfuzz.fuzzdb import attack_payloads
+}}}
+
+Some of these namespaces are a bit messy but that's due to the attempt to have them directly match up with the fuzzdb project. 
+
+== Simple Usage ==
+
+If we were going to test for LDAP injection we are going to want to use all of the values for this injection from the appropriate namespace. Values in the project are Python list types, which means they are able to be iterated over the top of. The following example would take all of the LDAP injection values and assign them to a variable called ldap_injection:
+
+{{{
+from pywebfuzz import fuzzdb
+
+ldap_values = fuzzdb.attack_payloads.ldap.ldap_injection
+}}} 
+
+== Multiple Values == 
+
+Some of the items in fuzzdb contain multiple values per line. One situation is where username and password value pairs are encountered. When encountering these there is an empty space between the values. Such as "cisco cisco". These values need to be split at this empty space then they can be used the way they were intended. This can be done using standard Python functions. The following example pulls in some default HTTP username and password values and splits them in to user and password.
+
+{{{
+from pywebfuzz import fuzzdb
+
+userpass = fuzzdb.wordlists_user_passwd.generic_listpairs.http_default_userpass
+
+for item in userpass:
+     up = item.split(" ")
+     user = up[0]
+     password = up[1]
+}}}
+
+== Replacing Values ==
+
+There are items in fuzzdb that require replacing before they can be properly used. One example of this is a path traversal attack. The payload values in the traversals_8_deep_exotic_encoding are one such set that requires replacing. 
+
+The payload values are structured as follows:
+{{{
+/../{FILE}
+/../../{FILE}
+/../../../{FILE}
+/../../../../{FILE}
+}}}
+
+These {FILE} items must be replaced with the file you are testing for in order for the attack to be successful. Luckily Python has easy string manipulation built in to it. This can be done using the .replace method for the value. The following will iterate through these values and replace the {FILE} items with Foo.bar and print them to the console.
+
+{{{
+from pywebfuzz import fuzzdb
+
+pathvals = fuzzdb.attack_payloads.path_traversal.traversals_8_deep_exotic_encoding
+
+for item in pathvals:
+    print(item.replace("{FILE}", "Foo.bar"))
+}}}
