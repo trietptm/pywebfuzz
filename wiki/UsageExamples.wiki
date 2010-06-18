@@ -8,6 +8,47 @@ The following are a couple of examples of using pywebfuzz.
 
 The utils portion of pywebfuzz contains functions that assist in making requests, encoding, as well as range generation. 
 
+=== Making requests ===
+
+pywebfuzz provides a convenience function to make requests. At the moment only GET and POST are supported but options for more HTTP methods are planned in the future. It takes advantages of Python's built-in urllib2 module to make these requests. 
+
+The make_request function takes a few arguments and returns two values: headers and content. 
+
+The default method is HTTP GET. If we just wanted to make a request for the index page of python.org we could do the following:
+
+{{{
+from pywebfuzz import utils
+
+location = "http://python.org"
+
+headers, content = utils.make_request(location)
+}}}
+
+headers =  dictionary value with the returned headers
+
+content = HTML response from the web server
+
+make_request also has some other options too. You can provide your own HTTP headers in a Python dictionary type as well as add POST data to the request. 
+
+{{{
+from pywebfuzz import utils
+
+location = "http://foo.com/submit.php"
+
+headers = {"Host": "foo.com",
+                   "User-Agent": "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.3) Gecko/20100423 Firefox/3.6.3",
+                   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                   "Accept-Language": "en-us,en;q=0.5",
+                   "Keep-Alive": "115",
+                   "Connection": "keep-alive",
+                   "Referer": "http://foo.com",
+                   "Cookie": ""}
+
+postdata = "foo=bar&high=low"
+
+headers, content = utils.make_request(location, verb="POST", postdata=postdata, head=headers)
+}}}
+
 === Generating a range of values ===
 
 The generate_range function of pywebfuzz allows you to create a list of values with a start, stop, and step values as well as the ability to prepend and append static values to your generated values. If we wanted to generate a range of values from 5000 to 6000, the following would return a list value with those values. 
