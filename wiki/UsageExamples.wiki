@@ -4,6 +4,40 @@
 
 The following are a couple of examples of using pywebfuzz.
 
+= Using utils =
+
+The utils portion of pywebfuzz contains functions that assist in making requests, encoding, as well as range generation. 
+
+=== Generating a range of values ===
+
+The generate_range function of pywebfuzz allows you to create a list of values with a start, stop, and step values as well as the ability to prepend and append static values to your generated values. If we wanted to generate a range of values from 5000 to 6000, the following would return a list value with those values. 
+
+{{{
+from pywebfuzz import utils
+
+myrange = utils.generate_range(5000, 6000)
+}}}
+
+If we wanted to skip every other value, we could provide a step value of 2.
+
+{{{
+from pywebfuzz import utils
+
+myrange = utils.generate_range(5000, 6000, 2)
+}}}
+
+Where this may really come in handy is having the ability to prepend or append values to the range that you are generating. You may be testing an application that takes order numbers as an input. You may want to iterate though order numbers to see if you can view someone else's order by merely specifying the value. So an example order number might look like:
+
+{{{ WQ6T7088 }}}
+
+We want to generate a list of values from 6000 to 8000 that have  the characters WQ6T prepended.
+
+{{{
+from pywebfuzz import utils
+
+myrange = utils.generate_range(6000, 8000, pre="WQ6T")
+}}}
+
 = Using fuzzdb =
 The following section describes how to use the items outlined in the fuzzdb portion of pywebfuzz.
 
