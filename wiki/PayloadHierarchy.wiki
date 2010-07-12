@@ -1,0 +1,7 @@
+#summary One-sentence summary of this page.
+
+= Payload Hierarchy =
+
+This is the payload hierarchy for the payloads in the fuzzdb module of pywebfuzz. This is just a simple reference for when you are instantiating these payload values in to variables.
+
+= Details =
