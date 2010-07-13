@@ -46,7 +46,7 @@ headers = {"Host": "foo.com",
 
 postdata = "foo=bar&high=low"
 
-headers, content = utils.make_request(location, verb="POST", postdata=postdata, headers=headers)
+headers, content = utils.make_request(location, method="POST", postdata=postdata, headers=headers)
 }}}
 
 === Generating a range of values ===
