@@ -2,7 +2,8 @@
 
 = Introduction =
 
-The following are a couple of examples of using pywebfuzz.
+The following are a couple of examples of using pywebfuzz. You can also browse the API documentation at:
+http://hexsec.com/apidocs/pywebfuzz
 
 = Using utils =
 
