@@ -83,6 +83,20 @@ myrange = utils.generate_range(6000, 8000, pre="WQ6T")
 = Using fuzzdb =
 The following section describes how to use the items outlined in the fuzzdb portion of pywebfuzz.
 
+== Keep in mind ==
+
+The files are read from a binary perspective. This may cause problems with certain libraries since the default encoding scheme for many Python 2.x items is ASCII. So while you are using the values from the fuzzdb portion you may get an error such as:
+
+{{{
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 0: ordinal not in range(128)
+}}}
+
+If you get this all you have to do is provide a decode method for your item and specify utf-8 as the encoding type. Such as: 
+
+{{{
+item.decode("utf-8")
+}}}
+
 == Simple Importing ==
 
 As with many modules in Python you have options with regard to how you would like to set up your namespaces. Efforts are made to match these names up with fuzzdb. The exception is that when a hyphen (-) is encountered they are replaced with an underscore (_). 
